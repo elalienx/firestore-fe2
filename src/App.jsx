@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 
 // Project files
 import { getCollection } from "./scripts/fireStore";
+import DriverCard from "./components/DriverCard";
 
 export default function App() {
   // Local state
@@ -10,23 +11,19 @@ export default function App() {
   const [status, setStatus] = useState(0); // 0: loading, 1: loaded, 2: error
 
   // Method
-  useEffect(() => loadData("drivers"), []);
+  useEffect(() => {
+    async function loadData(path) {
+      const data = await getCollection(path);
 
-  async function loadData(path) {
-    const data = await getCollection(path);
+      setDrivers(data);
+      setStatus(1);
+    }
 
-    setDrivers(data);
-    setStatus(1);
-  }
+    loadData("drivers");
+  }, []);
 
   // Components
-  const DriverCards = drivers.map((item) => (
-    <li key={item.id}>
-      <img src={item.imageURL} alt="Driver portrait" />
-      <h3>{item.name}</h3>
-      <p>From: {item.nationality}</p>
-    </li>
-  ));
+  const Cards = drivers.map((item) => <DriverCard key={item.id} item={item} />);
 
   // Safeguard
   if (status === 0) return <p>Loading... 🕕</p>;
@@ -36,7 +33,7 @@ export default function App() {
     <div className="App">
       <h1>My super fanpage about racing 🏁</h1>
       <h2>Drivers</h2>
-      <ul>{DriverCards}</ul>
+      {Cards}
     </div>
   );
 }
