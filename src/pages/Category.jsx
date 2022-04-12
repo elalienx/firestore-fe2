@@ -12,7 +12,7 @@ export default function Category() {
 
   // Methods
   useEffect(() => {
-    async function loadData(path) {
+    async function loadData() {
       const f1 = await getCollection("vehicles/vehicle/f1");
       const rally = await getCollection("vehicles/vehicle/rally");
 
@@ -20,7 +20,7 @@ export default function Category() {
       setStatus(1);
     }
 
-    loadData("categories");
+    loadData();
   }, []);
 
   // Components
