@@ -1,14 +1,19 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { useParams, Link } from "react-router-dom";
+// NPM packages
+import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+
+// Project file
 import { getDocument } from "../scripts/fireStore";
 
 // Green Page 🟢
 export default function Category() {
   const { categoryId } = useParams();
+
+  // Local state
   const [document, setDocument] = useState({});
   const [status, setStatus] = useState(0);
 
+  // Methods
   useEffect(() => {
     async function loadData() {
       const data = await getDocument("categories", categoryId);
@@ -25,7 +30,7 @@ export default function Category() {
   // Components
   const Links = document.subCategories.map((item, index) => (
     <li key={index}>
-      <Link to={`/categories/${categoryId}/${item.type}/`}>{item.label}</Link>
+      <Link to={`/category/${categoryId}/${item.type}`}>{item.label}</Link>
     </li>
   ));
 

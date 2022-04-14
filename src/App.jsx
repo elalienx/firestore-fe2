@@ -2,8 +2,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // Project files
-import Drivers from "./pages/Drivers";
 import Category from "./pages/Category";
+import Drivers from "./pages/Drivers";
 import SubCategory from "./pages/SubCategory";
 import Home from "./pages/Home";
 
