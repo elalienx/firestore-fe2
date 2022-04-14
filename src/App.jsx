@@ -13,12 +13,9 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/drivers/" element={<Drivers />} />
-          <Route path="/category/:categoryId/" element={<Category />} />
-          <Route
-            path="/category/:categoryId/:subId/"
-            element={<SubCategory />}
-          />
+          <Route path="drivers" element={<Drivers />} />
+          <Route path="category/:categoryId" element={<Category />} />
+          <Route path="category/:categoryId/:subId" element={<SubCategory />} />
         </Routes>
       </BrowserRouter>
     </div>
