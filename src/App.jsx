@@ -2,7 +2,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // Project files
-import Category from "./pages/Category";
 import Drivers from "./pages/Drivers";
 import Home from "./pages/Home";
 
@@ -13,7 +12,6 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="drivers/" element={<Drivers />} />
-          <Route path="vehicles/" element={<Category />} />
         </Routes>
       </BrowserRouter>
     </div>

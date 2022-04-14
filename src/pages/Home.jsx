@@ -7,8 +7,6 @@ export default function Home() {
       <h1>My super fanpage about racing 🏁</h1>
 
       <Link to="drivers/">Drivers 👦</Link>
-      <br />
-      <Link to="vehicles/">Vehicles 🏎</Link>
     </div>
   );
 }
