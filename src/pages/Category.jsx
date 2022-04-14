@@ -16,7 +16,7 @@ export default function Category() {
   // Methods
   useEffect(() => {
     async function loadData() {
-      const data = await getDocument("categories", categoryId);
+      const data = await getDocument("categoriesLong", categoryId);
 
       setDocument(data);
       setStatus(1);
