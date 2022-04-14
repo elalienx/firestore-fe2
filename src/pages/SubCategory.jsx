@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 
 // Project files
 import { getCollection } from "../scripts/fireStore";
+import CarCard from "../components/CarCard";
 
 // Blue Page 🔵
 export default function SubCategory() {
@@ -31,11 +32,7 @@ export default function SubCategory() {
 
   // Components
   const Cards = filteredList.map((item) => (
-    <article key={item.id}>
-      <h2>{item.model}</h2>
-      <p>by: {item.maker}</p>
-      <p>type: {item.type}</p>
-    </article>
+    <CarCard key={item.id} item={item} />
   ));
 
   return (
