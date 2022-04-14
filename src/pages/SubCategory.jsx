@@ -16,7 +16,9 @@ export default function SubCategory() {
 
   useEffect(() => {
     async function loadData() {
-      const data = await getCollection(`categories/${categoryId}/content`);
+      const data = await getCollection(
+        `categoriesLong/${categoryId}/content/${subId}/content`
+      );
 
       setList(data);
       setStatus(1);
@@ -27,13 +29,8 @@ export default function SubCategory() {
   // Safeguard
   if (status === 0) return <p>Loading</p>;
 
-  // Property
-  const filteredList = list.filter((item) => item.type === subId);
-
   // Components
-  const Cards = filteredList.map((item) => (
-    <CarCard key={item.id} item={item} />
-  ));
+  const Cards = list.map((item) => <CarCard key={item.id} item={item} />);
 
   return (
     <div className="category">

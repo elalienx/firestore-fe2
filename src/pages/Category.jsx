@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 // Project file
-import { getDocument } from "../scripts/fireStore";
+import { getCollection, getDocument } from "../scripts/fireStore";
 
 // Green Page 🟢
 export default function Category() {
@@ -11,14 +11,19 @@ export default function Category() {
 
   // Local state
   const [document, setDocument] = useState({});
+  const [list, setList] = useState([]);
   const [status, setStatus] = useState(0);
 
   // Methods
   useEffect(() => {
     async function loadData() {
-      const data = await getDocument("categoriesLong", categoryId);
+      const documentData = await getDocument("categoriesLong", categoryId);
+      const listData = await getCollection(
+        `categoriesLong/${categoryId}/content/`
+      );
 
-      setDocument(data);
+      setDocument(documentData);
+      setList(listData);
       setStatus(1);
     }
     loadData();
@@ -28,15 +33,16 @@ export default function Category() {
   if (status === 0) return <p>Loading</p>;
 
   // Components
-  const Links = document.subCategories.map((item, index) => (
-    <li key={index}>
-      <Link to={`/category/${categoryId}/${item.type}`}>{item.label}</Link>
+  const Links = list.map((item) => (
+    <li key={item.id}>
+      <Link to={`/category/${categoryId}/${item.id}`}>{item.title}</Link>
     </li>
   ));
 
   return (
     <div className="category">
       <h1>{document.title}</h1>
+      <p>{document.description}</p>
       <ul>{Links}</ul>
     </div>
   );
