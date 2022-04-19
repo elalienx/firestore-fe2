@@ -6,6 +6,7 @@ import {
   getDoc,
   addDoc,
   deleteDoc,
+  setDoc,
 } from "firebase/firestore";
 
 // Project files
@@ -39,6 +40,13 @@ export async function getCollection(path) {
 }
 
 // -- Update (pending)
+export async function updateDocument(path, data) {
+  const id = data.id;
+  const documentPath = doc(fireStore, path, id);
+
+  await setDoc(documentPath, data);
+  console.log("Deleted document successfully", id);
+}
 
 // -- Delete
 export async function deleteDocument(path, id) {

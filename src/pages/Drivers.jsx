@@ -6,6 +6,7 @@ import {
   getCollection,
   createDocument,
   deleteDocument,
+  updateDocument,
 } from "../scripts/fireStore";
 import DriverCard from "../components/DriverCard";
 
@@ -38,11 +39,22 @@ export default function Drivers() {
       name: name,
       nationality: nationality,
       imageURL: imageURL,
+      active: false,
     };
     const documentId = await createDocument("drivers", newDriver);
 
     newDriver.id = documentId;
     setDrivers([...drivers, newDriver]);
+  }
+
+  async function onUpdate(data) {
+    await updateDocument("drivers", data);
+
+    const clonedDrivers = [...drivers];
+    const index = clonedDrivers.findIndex((item) => item.id === data.id);
+
+    clonedDrivers[index] = data;
+    setDrivers(clonedDrivers);
   }
 
   async function onDelete(id) {
@@ -57,7 +69,12 @@ export default function Drivers() {
 
   // Components
   const Cards = drivers.map((item) => (
-    <DriverCard key={item.id} item={item} onDelete={onDelete} />
+    <DriverCard
+      key={item.id}
+      item={item}
+      onDelete={onDelete}
+      onUpdate={onUpdate}
+    />
   ));
 
   // Safeguard
