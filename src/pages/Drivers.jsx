@@ -14,11 +14,12 @@ export default function Drivers() {
   // Local state
   const [drivers, setDrivers] = useState([]);
   const [status, setStatus] = useState(0); // 0: loading, 1: loaded, 2: error
-  const [name, setName] = useState("Eduardo");
-  const [nationality, setNationality] = useState("Ecuador");
-  const [imageURL, setImageURL] = useState(
-    "https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2021-05/210521-Hayden-Swank-al-1155-3dcaf9.jpg"
-  ); // https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2021-05/210521-Hayden-Swank-al-1155-3dcaf9.jpg
+  const [name, setName] = useState("");
+  const [nationality, setNationality] = useState("");
+  const [imageURL, setImageURL] = useState("");
+
+  // Properties
+  const path = "drivers";
 
   // Method
   useEffect(() => {
@@ -29,7 +30,7 @@ export default function Drivers() {
       setStatus(1);
     }
 
-    loadData("drivers");
+    loadData(path);
   }, []);
 
   async function onCreate(event) {
@@ -41,14 +42,14 @@ export default function Drivers() {
       imageURL: imageURL,
       active: false,
     };
-    const documentId = await createDocument("drivers", newDriver);
+    const documentId = await createDocument(path, newDriver);
 
     newDriver.id = documentId;
     setDrivers([...drivers, newDriver]);
   }
 
   async function onUpdate(data) {
-    await updateDocument("drivers", data);
+    await updateDocument(path, data);
 
     const clonedDrivers = [...drivers];
     const index = clonedDrivers.findIndex((item) => item.id === data.id);
@@ -58,9 +59,9 @@ export default function Drivers() {
   }
 
   async function onDelete(id) {
-    await deleteDocument("drivers", id);
+    await deleteDocument(path, id);
 
-    const clonedDrivers = [...drivers]; // [ {id:9u, name: Eduardo}, {id:Gm, name:Niki}, {id: Gn, name: Michael} ];
+    const clonedDrivers = [...drivers];
     const index = clonedDrivers.findIndex((item) => item.id === id);
 
     clonedDrivers.splice(index, 1);
@@ -88,19 +89,16 @@ export default function Drivers() {
       <form onSubmit={onCreate}>
         <h2>Add a new driver</h2>
         <input
-          type="text"
           placeholder="Name"
           value={name}
           onChange={(event) => setName(event.target.value)}
         />
         <input
-          type="text"
           placeholder="Country"
           value={nationality}
           onChange={(event) => setNationality(event.target.value)}
         />
         <input
-          type="text"
           placeholder="Paste the image link"
           value={imageURL}
           onChange={(event) => setImageURL(event.target.value)}
