@@ -2,7 +2,11 @@
 import { useEffect, useState } from "react";
 
 // Project files
-import { getCollection, addDocument } from "../scripts/fireStore";
+import {
+  getCollection,
+  createDocument,
+  deleteDocument,
+} from "../scripts/fireStore";
 import DriverCard from "../components/DriverCard";
 
 export default function Drivers() {
@@ -27,29 +31,34 @@ export default function Drivers() {
     loadData("drivers");
   }, []);
 
-  async function onSubmit(event) {
-    // 1. We stop the form from reloading the page
+  async function onCreate(event) {
     event.preventDefault();
 
-    // 2. We group our state variables to send them as a single object
     const newDriver = {
       name: name,
       nationality: nationality,
       imageURL: imageURL,
     };
+    const documentId = await createDocument("drivers", newDriver);
 
-    // 3. We send the object to firebase AND wait until firebase returns the id
-    const documentId = await addDocument("drivers", newDriver);
-
-    // 4. We add the id to our object
     newDriver.id = documentId;
-
-    // 5. update the drivers array state
     setDrivers([...drivers, newDriver]);
   }
 
+  async function onDelete(id) {
+    await deleteDocument("drivers", id);
+
+    const clonedDrivers = [...drivers]; // [ {id:9u, name: Eduardo}, {id:Gm, name:Niki}, {id: Gn, name: Michael} ];
+    const index = clonedDrivers.findIndex((item) => item.id === id);
+
+    clonedDrivers.splice(index, 1);
+    setDrivers(clonedDrivers);
+  }
+
   // Components
-  const Cards = drivers.map((item) => <DriverCard key={item.id} item={item} />);
+  const Cards = drivers.map((item) => (
+    <DriverCard key={item.id} item={item} onDelete={onDelete} />
+  ));
 
   // Safeguard
   if (status === 0) return <p>Loading... 🕕</p>;
@@ -59,7 +68,7 @@ export default function Drivers() {
     <div id="drivers">
       <h1>Drivers</h1>
       <div className="grid">{Cards}</div>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onCreate}>
         <h2>Add a new driver</h2>
         <input
           type="text"

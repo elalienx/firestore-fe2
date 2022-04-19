@@ -1,12 +1,19 @@
 // NPM package
-import { collection, getDocs, doc, getDoc, addDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  doc,
+  getDoc,
+  addDoc,
+  deleteDoc,
+} from "firebase/firestore";
 
 // Project files
 import { fireStore } from "./firebase";
 
 // Methods
 // -- Create
-export async function addDocument(path, data) {
+export async function createDocument(path, data) {
   const documentPath = collection(fireStore, path);
   const document = await addDoc(documentPath, data);
 
@@ -29,4 +36,14 @@ export async function getCollection(path) {
   });
 
   return documents;
+}
+
+// -- Update (pending)
+
+// -- Delete
+export async function deleteDocument(path, id) {
+  const documentPath = doc(fireStore, path, id);
+
+  await deleteDoc(documentPath);
+  console.log("Deleted document successfully", id);
 }
