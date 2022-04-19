@@ -6,6 +6,7 @@ import Category from "./pages/Category";
 import Drivers from "./pages/Drivers";
 import SubCategory from "./pages/SubCategory";
 import Home from "./pages/Home";
+import "./styles/style.css";
 
 export default function App() {
   return (

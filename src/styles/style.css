@@ -1,0 +1,11 @@
+#drivers .grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 16px;
+  row-gap: 16px;
+}
+
+.driver-card img {
+  max-width: 100%;
+  height: auto;
+}
