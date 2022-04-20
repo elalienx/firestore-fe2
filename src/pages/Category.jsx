@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 // Project file
-import { getCollection, getDocument } from "../scripts/fireStore";
+import { readCollection, readDocument } from "../scripts/fireStore";
 
 // Green Page 🟢
 export default function Category() {
@@ -17,8 +17,8 @@ export default function Category() {
   // Methods
   useEffect(() => {
     async function loadData() {
-      const documentData = await getDocument("categoriesLong", categoryId);
-      const listData = await getCollection(
+      const documentData = await readDocument("categoriesLong", categoryId);
+      const listData = await readCollection(
         `categoriesLong/${categoryId}/content/`
       );
 

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 // Project files
 import {
-  getCollection,
+  readCollection,
   createDocument,
   deleteDocument,
   updateDocument,
@@ -26,7 +26,7 @@ export default function Drivers() {
   // Method
   useEffect(() => {
     async function loadData(path) {
-      const data = await getCollection(path);
+      const data = await readCollection(path);
 
       setDrivers(data);
       setStatus(1);

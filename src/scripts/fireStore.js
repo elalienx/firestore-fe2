@@ -1,13 +1,6 @@
 // NPM package
-import {
-  collection,
-  getDocs,
-  doc,
-  getDoc,
-  addDoc,
-  deleteDoc,
-  setDoc,
-} from "firebase/firestore";
+import { doc, collection } from "firebase/firestore";
+import { addDoc, getDoc, getDocs, setDoc, deleteDoc } from "firebase/firestore";
 
 // Project files
 import { fireStore } from "./firebase";
@@ -22,15 +15,15 @@ export async function createDocument(path, data) {
 }
 
 // -- Read
-export async function getDocument(path, id) {
+export async function readDocument(path, id) {
   const documentPath = doc(fireStore, path, id);
   const document = await getDoc(documentPath);
 
   return document.data();
 }
 
-export async function getCollection(path) {
-  const collectionPath = collection(fireStore, path); // firebase-fe2/firestore/drivers
+export async function readCollection(path) {
+  const collectionPath = collection(fireStore, path);
   const snapshot = await getDocs(collectionPath);
   const documents = snapshot.docs.map((item) => {
     return { id: item.id, ...item.data() };
@@ -39,13 +32,12 @@ export async function getCollection(path) {
   return documents;
 }
 
-// -- Update (pending)
+// -- Update
 export async function updateDocument(path, data) {
   const id = data.id;
   const documentPath = doc(fireStore, path, id);
 
   await setDoc(documentPath, data);
-  console.log("Deleted document successfully", id);
 }
 
 // -- Delete
@@ -53,5 +45,4 @@ export async function deleteDocument(path, id) {
   const documentPath = doc(fireStore, path, id);
 
   await deleteDoc(documentPath);
-  console.log("Deleted document successfully", id);
 }

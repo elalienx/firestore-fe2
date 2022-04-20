@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 // Project files
-import { getCollection } from "../scripts/fireStore";
+import { readCollection } from "../scripts/fireStore";
 import CarCard from "../components/CarCard";
 
 // Blue Page 🔵
@@ -16,7 +16,7 @@ export default function SubCategory() {
 
   useEffect(() => {
     async function loadData() {
-      const data = await getCollection(
+      const data = await readCollection(
         `categoriesLong/${categoryId}/content/${subId}/content`
       );
 
