@@ -52,6 +52,8 @@ export default function DriverForm({ driversState }) {
       <InputField setup={form.name} state={[name, setName]} />
       <InputField setup={form.country} state={[nationality, setNationality]} />
       <InputField setup={form.imageURL} state={[imageURL, setImageURL]} />
+      {/* For tomorrow */}
+      <input type="file" accept="image/png, image/jpg" />
       <button>Submit</button>
       <button onClick={resetForm}>Reset</button>
     </form>
