@@ -1,0 +1,14 @@
+{
+  "name": {
+    "label": "Driver's name",
+    "placeholder": "Ex: Niki Lauda"
+  },
+  "nationality": {
+    "label": "Country of origin",
+    "placeholder": "Ex: Austria"
+  },
+  "imageURL": {
+    "label": "Avatar image URL",
+    "placeholder": "Ex: www.f1.com/driver/lauda.png"
+  }
+}

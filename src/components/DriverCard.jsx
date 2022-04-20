@@ -1,5 +1,6 @@
-export default function DriverCard({ item, onDelete, onUpdate }) {
+export default function DriverCard({ item, actions }) {
   const { id, active, name, nationality, imageURL } = item;
+  const [onUpdate, onDelete] = actions;
 
   // Method
   function changeActive() {

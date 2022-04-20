@@ -8,7 +8,9 @@ import {
   deleteDocument,
   updateDocument,
 } from "../scripts/fireStore";
+import InputField from "../components/InputField";
 import DriverCard from "../components/DriverCard";
+import form from "../data/driverForm.json";
 
 export default function Drivers() {
   // Local state
@@ -70,12 +72,7 @@ export default function Drivers() {
 
   // Components
   const Cards = drivers.map((item) => (
-    <DriverCard
-      key={item.id}
-      item={item}
-      onDelete={onDelete}
-      onUpdate={onUpdate}
-    />
+    <DriverCard key={item.id} item={item} actions={[onUpdate, onDelete]} />
   ));
 
   // Safeguard
@@ -88,21 +85,12 @@ export default function Drivers() {
       <div className="grid">{Cards}</div>
       <form onSubmit={onCreate}>
         <h2>Add a new driver</h2>
-        <input
-          placeholder="Name"
-          value={name}
-          onChange={(event) => setName(event.target.value)}
+        <InputField setup={form.name} state={[name, setName]} />
+        <InputField
+          setup={form.nationality}
+          state={[nationality, setNationality]}
         />
-        <input
-          placeholder="Country"
-          value={nationality}
-          onChange={(event) => setNationality(event.target.value)}
-        />
-        <input
-          placeholder="Paste the image link"
-          value={imageURL}
-          onChange={(event) => setImageURL(event.target.value)}
-        />
+        <InputField setup={form.imageURL} state={[imageURL, setImageURL]} />
         <button>Submit</button>
       </form>
     </div>
