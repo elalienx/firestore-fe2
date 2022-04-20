@@ -3,7 +3,7 @@
     "label": "Driver's name",
     "placeholder": "Ex: Niki Lauda"
   },
-  "nationality": {
+  "country": {
     "label": "Country of origin",
     "placeholder": "Ex: Austria"
   },

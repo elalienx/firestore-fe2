@@ -1,6 +1,9 @@
-export default function DriverCard({ item, actions }) {
+// Project files
+import { deleteDocument, updateDocument } from "../scripts/fireStore";
+
+export default function DriverCard({ item, driversState }) {
   const { id, active, name, nationality, imageURL } = item;
-  const [onUpdate, onDelete] = actions;
+  const [drivers, setDrivers] = driversState;
 
   // Method
   function changeActive() {
@@ -9,6 +12,26 @@ export default function DriverCard({ item, actions }) {
     editedItem.active = !editedItem.active;
 
     onUpdate(editedItem);
+  }
+
+  async function onUpdate(data) {
+    await updateDocument("drivers", data);
+
+    const clonedDrivers = [...drivers];
+    const index = clonedDrivers.findIndex((item) => item.id === data.id);
+
+    clonedDrivers[index] = data;
+    setDrivers(clonedDrivers);
+  }
+
+  async function onDelete(id) {
+    await deleteDocument("drivers", id);
+
+    const clonedDrivers = [...drivers];
+    const index = clonedDrivers.findIndex((item) => item.id === id);
+
+    clonedDrivers.splice(index, 1);
+    setDrivers(clonedDrivers);
   }
 
   return (
