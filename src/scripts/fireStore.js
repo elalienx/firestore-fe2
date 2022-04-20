@@ -6,7 +6,7 @@ import { addDoc, getDoc, getDocs, setDoc, deleteDoc } from "firebase/firestore";
 import { fireStore } from "./firebase";
 
 // Methods
-// -- Create (❌ error hanlding pending)
+// -- Create
 export async function createDocument(path, data) {
   let payload = { data: undefined, error: false };
 
@@ -22,12 +22,21 @@ export async function createDocument(path, data) {
   return payload;
 }
 
-// -- Read (⏱ error hanlding in progress)
+// -- Read
 export async function readDocument(path, id) {
-  const documentPath = doc(fireStore, path, id);
-  const document = await getDoc(documentPath);
+  const payload = { data: undefined, error: false };
 
-  return document.data();
+  try {
+    const documentPath = doc(fireStore, path, id);
+    const document = await getDoc(documentPath);
+
+    payload.data = document.data();
+  } catch (error) {
+    payload.error = true;
+    payload.data = error;
+  }
+
+  return payload;
 }
 
 export async function readCollection(path) {
@@ -48,17 +57,37 @@ export async function readCollection(path) {
   return payload;
 }
 
-// -- Update (❌ error hanlding pending)
+// -- Update
 export async function updateDocument(path, data) {
-  const id = data.id;
-  const documentPath = doc(fireStore, path, id);
+  const payload = { data: undefined, error: false };
 
-  await setDoc(documentPath, data);
+  try {
+    const id = data.id;
+    const documentPath = doc(fireStore, path, id);
+    await setDoc(documentPath, data);
+
+    payload.data = "Succeed modifying document";
+  } catch (error) {
+    payload.error = true;
+    payload.data = error;
+  }
+
+  return payload;
 }
 
-// -- Delete (❌ error hanlding pending)
+// -- Delete
 export async function deleteDocument(path, id) {
-  const documentPath = doc(fireStore, path, id);
+  const payload = { data: undefined, error: false };
 
-  await deleteDoc(documentPath);
+  try {
+    const documentPath = doc(fireStore, path, id);
+
+    await deleteDoc(documentPath);
+    payload.data = "Succeed deleting document";
+  } catch (error) {
+    payload.error = true;
+    payload.data = error;
+  }
+
+  return payload;
 }
