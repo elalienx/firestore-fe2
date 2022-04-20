@@ -26,14 +26,24 @@ export default function Drivers() {
   // Method
   useEffect(() => {
     async function loadData(path) {
-      const data = await readCollection(path);
+      const payload = await readCollection(path);
+      const { data, error } = payload;
 
-      setDrivers(data);
-      setStatus(1);
+      error ? loadFail(data) : loadSucceed(data);
     }
 
     loadData(path);
   }, []);
+
+  function loadSucceed(data) {
+    setDrivers(data);
+    setStatus(1);
+  }
+
+  function loadFail(error) {
+    console.error(error);
+    setStatus(2);
+  }
 
   async function onCreate(event) {
     event.preventDefault();
@@ -44,10 +54,24 @@ export default function Drivers() {
       imageURL: imageURL,
       active: false,
     };
-    const documentId = await createDocument(path, newDriver);
+    const payload = await createDocument(path, newDriver);
+    const { data, error } = payload;
 
-    newDriver.id = documentId;
-    setDrivers([...drivers, newDriver]);
+    error ? createFail(data) : createSucceed(newDriver, data);
+  }
+
+  function createSucceed(driver, id) {
+    driver.id = id;
+    setDrivers([...drivers, driver]);
+  }
+
+  function createFail(error) {
+    alert("Sorry, we could not add a new driver. Please try again");
+    console.error(error);
+
+    setName("");
+    setNationality("");
+    setImageURL("");
   }
 
   async function onUpdate(data) {

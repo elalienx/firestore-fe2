@@ -6,15 +6,23 @@ import { addDoc, getDoc, getDocs, setDoc, deleteDoc } from "firebase/firestore";
 import { fireStore } from "./firebase";
 
 // Methods
-// -- Create
+// -- Create (❌ error hanlding pending)
 export async function createDocument(path, data) {
-  const documentPath = collection(fireStore, path);
-  const document = await addDoc(documentPath, data);
+  let payload = { data: undefined, error: false };
 
-  return document.id;
+  try {
+    const documentPath = collection(fireStore, path); // missing the db ref on purpose
+    const document = await addDoc(documentPath, data);
+
+    payload = { data: document.id, error: false };
+  } catch (error) {
+    payload = { data: error, error: true };
+  }
+
+  return payload;
 }
 
-// -- Read
+// -- Read (⏱ error hanlding in progress)
 export async function readDocument(path, id) {
   const documentPath = doc(fireStore, path, id);
   const document = await getDoc(documentPath);
@@ -23,16 +31,24 @@ export async function readDocument(path, id) {
 }
 
 export async function readCollection(path) {
-  const collectionPath = collection(fireStore, path);
-  const snapshot = await getDocs(collectionPath);
-  const documents = snapshot.docs.map((item) => {
-    return { id: item.id, ...item.data() };
-  });
+  let payload = { data: undefined, error: false };
 
-  return documents;
+  try {
+    const collectionPath = collection(fireStore, path);
+    const snapshot = await getDocs(collectionPath);
+    const documents = snapshot.docs.map((item) => {
+      return { id: item.id, ...item.data() };
+    });
+
+    payload = { data: documents, error: false };
+  } catch (error) {
+    payload = { data: error, error: true };
+  }
+
+  return payload;
 }
 
-// -- Update
+// -- Update (❌ error hanlding pending)
 export async function updateDocument(path, data) {
   const id = data.id;
   const documentPath = doc(fireStore, path, id);
@@ -40,7 +56,7 @@ export async function updateDocument(path, data) {
   await setDoc(documentPath, data);
 }
 
-// -- Delete
+// -- Delete (❌ error hanlding pending)
 export async function deleteDocument(path, id) {
   const documentPath = doc(fireStore, path, id);
 
