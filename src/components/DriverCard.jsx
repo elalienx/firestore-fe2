@@ -1,4 +1,5 @@
 // Project files
+import { deleteFile } from "../scripts/cloudStorage";
 import { deleteDocument, updateDocument } from "../scripts/fireStore";
 
 export default function DriverCard({ item, driversState }) {
@@ -35,6 +36,7 @@ export default function DriverCard({ item, driversState }) {
   }
 
   async function onDelete(id) {
+    await deleteFile(`drivers/driver-${name}-${nationality}.png`);
     const payload = await deleteDocument("drivers", id);
     const { data, error } = payload;
 

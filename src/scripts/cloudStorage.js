@@ -1,5 +1,6 @@
 // NPM packages
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { ref } from "firebase/storage";
+import { getDownloadURL, uploadBytes, deleteObject } from "firebase/storage";
 
 // Project file
 import { cloudStorage } from "./firebase";
@@ -10,12 +11,12 @@ export async function createFile(filePath, file) {
   const fileReference = ref(cloudStorage, filePath);
 
   await uploadBytes(fileReference, file); // uploading a file to the server
-
   return await getDownloadURL(fileReference); // getting the URL
 }
 
-// -- Update (replace)
-export async function updateFile() {}
-
 // -- Delete
-export async function deleteFile() {}
+export async function deleteFile(filePath) {
+  const fileReference = ref(cloudStorage, filePath);
+
+  await deleteObject(fileReference);
+}
