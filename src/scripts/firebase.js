@@ -1,6 +1,7 @@
 // NPM package
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore } from "firebase/firestore"; // plugin for FireStore database
+import { getStorage } from "firebase/storage"; // plugin for the Firebase CloudStorage dynamic hosting
 
 // Properties
 const firebaseConfig = {
@@ -11,6 +12,7 @@ const firebaseConfig = {
   messagingSenderId: "1009972372916",
   appId: "1:1009972372916:web:45044610cf9ed26edf7ee1",
 };
-const app = initializeApp(firebaseConfig);
+const firebaseapp = initializeApp(firebaseConfig);
 
-export const fireStore = getFirestore(app);
+export const fireStore = getFirestore(firebaseapp);
+export const cloudStorage = getStorage(firebaseapp);

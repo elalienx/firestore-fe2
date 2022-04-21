@@ -1,4 +1,4 @@
-// NPM package
+// NPM packages
 import { doc, collection } from "firebase/firestore";
 import { addDoc, getDoc, getDocs, setDoc, deleteDoc } from "firebase/firestore";
 

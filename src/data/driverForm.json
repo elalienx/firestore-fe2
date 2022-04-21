@@ -6,9 +6,5 @@
   "country": {
     "label": "Country of origin",
     "placeholder": "Ex: Austria"
-  },
-  "imageURL": {
-    "label": "Avatar image URL",
-    "placeholder": "Ex: www.f1.com/driver/lauda.png"
   }
 }
