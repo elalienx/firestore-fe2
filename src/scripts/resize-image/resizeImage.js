@@ -1,10 +1,5 @@
 // Pure
-export default async function resizeImage(
-  imageSource,
-  width,
-  height,
-  compressJPG
-) {
+export default async function resizeImage(imageSource, width, height) {
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
   const image = await loadImage(imageSource);
@@ -46,14 +41,6 @@ function proportionalScaling(image, width, height) {
 // Pure
 async function canvasToPNGBlob(canvas) {
   const canvasToDataURL = canvas.toDataURL("image/png");
-  const DataURLToBlob = await fetch(canvasToDataURL);
-  const result = await DataURLToBlob.blob();
-
-  return result;
-}
-
-async function canvasToJPGBlob(canvas) {
-  const canvasToDataURL = canvas.toDataURL("image/jpg");
   const DataURLToBlob = await fetch(canvasToDataURL);
   const result = await DataURLToBlob.blob();
 
