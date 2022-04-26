@@ -1,17 +1,13 @@
 // NPM packages
 import { Link } from "react-router-dom";
 
-// Red Page 🔴
 export default function Home() {
   return (
     <div id="home">
       <h1>My super fanpage about racing 🏁</h1>
+      <p>Please login or create an account to access our content</p>
 
-      <Link to="drivers/">Drivers 👦</Link>
-      <br />
-      <Link to="category/vehicles">Vehicles 🏎</Link>
-      <br />
-      <Link to="category/companies">Companies 🏙</Link>
+      <Link to="/sign-up">Sign up</Link>
     </div>
   );
 }

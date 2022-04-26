@@ -1,25 +1,22 @@
 // NPM package
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useState } from "react";
+import { BrowserRouter } from "react-router-dom";
 
 // Project files
-import Category from "./pages/Category";
-import Drivers from "./pages/Drivers";
-import SubCategory from "./pages/SubCategory";
-import Home from "./pages/Home";
-import { SignUp } from "./pages/SignUp";
+import LoggedRoutes from "./routes/LoggedRoutes";
+import UnloggedRoutes from "./routes/UnloggedRoutes";
 import "./styles/style.css";
 
 export default function App() {
+  const [uid, setUID] = useState(null);
+
+  console.log("App.jsx uid", uid);
+
   return (
     <div className="App">
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="drivers" element={<Drivers />} />
-          <Route path="category/:categoryId" element={<Category />} />
-          <Route path="category/:categoryId/:subId" element={<SubCategory />} />
-          <Route path="sign-up" element={<SignUp />} />
-        </Routes>
+        {uid && <LoggedRoutes uidState={[uid, setUID]} />}
+        {!uid && <UnloggedRoutes uidState={[uid, setUID]} />}
       </BrowserRouter>
     </div>
   );

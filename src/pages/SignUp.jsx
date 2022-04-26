@@ -1,5 +1,6 @@
 // NPM packages
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // Project files
 import InputField from "../components/InputField";
@@ -7,7 +8,10 @@ import signUpForm from "../data/signUpForm.json";
 import { createUser } from "../scripts/firebaseAuth";
 import { createDocumentWithId } from "../scripts/fireStore";
 
-export function SignUp() {
+export default function SignUp({ uidState }) {
+  const [uid, setUID] = uidState;
+  const navigation = useNavigate();
+
   const [name, setName] = useState("Eduardo");
   const [email, setEmail] = useState("el_alienx@hotmail.com");
   const [age, setAge] = useState("35");
@@ -18,7 +22,7 @@ export function SignUp() {
     event.preventDefault();
 
     // 1 Create UID
-    const UID = await createUser(email, password);
+    const newUID = await createUser(email, password);
 
     // 2 Create user document
     const newUser = {
@@ -26,8 +30,15 @@ export function SignUp() {
       age: age,
       city: city,
     };
-    await createDocumentWithId("users", UID, newUser);
-    console.log("user created?");
+    const payload = await createDocumentWithId("users", newUID, newUser);
+
+    // If it works i will navigate to the dashboard page
+    // Else i will show an error message
+    if (payload.error) alert("Could not create user");
+    else {
+      setUID(newUID);
+      navigation("/dashboard");
+    }
   }
 
   return (
