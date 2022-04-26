@@ -6,6 +6,7 @@ import Category from "./pages/Category";
 import Drivers from "./pages/Drivers";
 import SubCategory from "./pages/SubCategory";
 import Home from "./pages/Home";
+import { SignUp } from "./pages/SignUp";
 import "./styles/style.css";
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
           <Route path="drivers" element={<Drivers />} />
           <Route path="category/:categoryId" element={<Category />} />
           <Route path="category/:categoryId/:subId" element={<SubCategory />} />
+          <Route path="sign-up" element={<SignUp />} />
         </Routes>
       </BrowserRouter>
     </div>

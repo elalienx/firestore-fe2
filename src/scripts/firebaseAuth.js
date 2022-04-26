@@ -1,14 +1,16 @@
-/**
- * NOTE THIS IS PSEUDO CODE (FAKE CODE)
- * IS JUST FOR ILLUSTRATION PURPOSES
- * TOMORROW WE WILL CODE THE REAL THING
- */
+// NPM Packages
+import { createUserWithEmailAndPassword } from "firebase/auth";
+
 // Project file
 import { authentification } from "./firebase";
 
 // Methods
 export async function createUser(email, password) {
-  // mumbo jumbo of firebase (copy paste from the oficial documentation)
+  const userCredential = await createUserWithEmailAndPassword(
+    authentification,
+    email,
+    password
+  );
 
-  return uid;
+  return userCredential.user.uid;
 }

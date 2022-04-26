@@ -11,10 +11,25 @@ export async function createDocument(path, data) {
   let payload = { data: undefined, error: false };
 
   try {
-    const documentPath = collection(fireStore, path); // missing the db ref on purpose
+    const documentPath = collection(fireStore, path);
     const document = await addDoc(documentPath, data);
 
     payload = { data: document.id, error: false };
+  } catch (error) {
+    payload = { data: error, error: true };
+  }
+
+  return payload;
+}
+
+export async function createDocumentWithId(path, id, data) {
+  let payload = { data: undefined, error: false };
+
+  try {
+    const documentReference = doc(fireStore, path, id);
+    await setDoc(documentReference, data);
+
+    payload = { data: `Document with id ${id} created!`, error: false };
   } catch (error) {
     payload = { data: error, error: true };
   }
