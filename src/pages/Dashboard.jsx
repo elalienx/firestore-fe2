@@ -1,7 +1,9 @@
 // NPM packages
 import { Link } from "react-router-dom";
 
-export default function Dashboard() {
+export default function Dashboard({ uidState }) {
+  const [uid, setUID] = uidState;
+
   return (
     <div id="dashboard">
       <h1>My super fanpage about racing 🏁</h1>
@@ -11,6 +13,8 @@ export default function Dashboard() {
       <Link to="/category/vehicles">Vehicles 🏎</Link>
       <br />
       <Link to="/category/companies">Companies 🏙</Link>
+      <br />
+      <button onClick={() => setUID(null)}>Logout</button>
     </div>
   );
 }

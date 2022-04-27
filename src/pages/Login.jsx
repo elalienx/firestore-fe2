@@ -7,7 +7,10 @@ import InputField from "../components/InputField";
 import form from "../data/loginForm.json";
 import { loginUser } from "../scripts/firebaseAuth";
 
-export default function Login() {
+export default function Login({ uidState }) {
+  const [uid, setUID] = uidState;
+  const navigation = useNavigate();
+
   // Local state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -17,7 +20,11 @@ export default function Login() {
     event.preventDefault();
 
     const returningUID = await loginUser(email, password);
-    console.log("Login.jsx returningUID", returningUID);
+
+    if (returningUID) {
+      setUID(returningUID);
+      navigation("/dashboard");
+    }
   }
 
   return (

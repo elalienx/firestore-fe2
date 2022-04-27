@@ -11,7 +11,7 @@ export default function UnloggedRoutes({ uidState }) {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="login" element={<Login />} />
+      <Route path="login" element={<Login uidState={uidState} />} />
       <Route path="sign-up" element={<SignUp uidState={uidState} />} />
       <Route path="*" element={<NotLogged />} />
     </Routes>
