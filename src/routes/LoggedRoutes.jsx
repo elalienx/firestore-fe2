@@ -6,17 +6,19 @@ import Category from "../pages/Category";
 import Dashboard from "../pages/Dashboard";
 import Drivers from "../pages/Drivers";
 import Home from "../pages/Home";
-import SubCategory from "../pages/SubCategory";
+import Login from "../pages/Login";
 import SignUp from "../pages/SignUp";
+import SubCategory from "../pages/SubCategory";
 
 export default function LoggedRoutes({ uidState }) {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="dashboard" element={<Dashboard />} />
-      <Route path="drivers" element={<Drivers />} />
       <Route path="category/:categoryId" element={<Category />} />
       <Route path="category/:categoryId/:subId" element={<SubCategory />} />
+      <Route path="dashboard" element={<Dashboard />} />
+      <Route path="drivers" element={<Drivers />} />
+      <Route path="login" element={<Login />} />
       <Route path="sign-up" element={<SignUp uidState={uidState} />} />
     </Routes>
   );

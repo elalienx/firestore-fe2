@@ -8,6 +8,8 @@ export default function Home() {
       <p>Please login or create an account to access our content</p>
 
       <Link to="/sign-up">Sign up</Link>
+      <br />
+      <Link to="/login">Login</Link>
     </div>
   );
 }
