@@ -7,6 +7,7 @@ import Dashboard from "../pages/Dashboard";
 import Drivers from "../pages/Drivers";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
+import RecoverPassword from "../pages/RecoverPassword";
 import SignUp from "../pages/SignUp";
 import SubCategory from "../pages/SubCategory";
 
@@ -19,6 +20,7 @@ export default function LoggedRoutes({ uidState }) {
       <Route path="dashboard" element={<Dashboard uidState={uidState} />} />
       <Route path="drivers" element={<Drivers />} />
       <Route path="login" element={<Login uidState={uidState} />} />
+      <Route path="recover-password" element={<RecoverPassword />} />
       <Route path="sign-up" element={<SignUp uidState={uidState} />} />
     </Routes>
   );

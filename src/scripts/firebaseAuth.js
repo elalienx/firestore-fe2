@@ -2,6 +2,7 @@
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 
 // Project file
@@ -26,4 +27,8 @@ export async function loginUser(email, password) {
   );
 
   return userCredential.user.uid;
+}
+
+export async function recoverUser(email) {
+  await sendPasswordResetEmail(authentification, email);
 }

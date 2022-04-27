@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import NotLogged from "../pages/NotLogged";
+import RecoverPassword from "../pages/RecoverPassword";
 import SignUp from "../pages/SignUp";
 
 export default function UnloggedRoutes({ uidState }) {
@@ -12,6 +13,7 @@ export default function UnloggedRoutes({ uidState }) {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="login" element={<Login uidState={uidState} />} />
+      <Route path="recover-password" element={<RecoverPassword />} />
       <Route path="sign-up" element={<SignUp uidState={uidState} />} />
       <Route path="*" element={<NotLogged />} />
     </Routes>
