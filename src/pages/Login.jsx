@@ -6,9 +6,10 @@ import { Link, useNavigate } from "react-router-dom";
 import InputField from "../components/InputField";
 import form from "../data/loginForm.json";
 import { loginUser } from "../scripts/firebaseAuth";
+import { useUID } from "../state/UIDContext";
 
-export default function Login({ uidState }) {
-  const [uid, setUID] = uidState;
+export default function Login() {
+  const { setUID } = useUID();
   const navigation = useNavigate();
 
   // Local state

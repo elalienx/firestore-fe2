@@ -1,8 +1,11 @@
 // NPM packages
 import { Link } from "react-router-dom";
 
-export default function Dashboard({ uidState }) {
-  const [uid, setUID] = uidState;
+// Project file
+import { useUID } from "../state/UIDContext";
+
+export default function Dashboard() {
+  const { setUID } = useUID();
 
   return (
     <div id="dashboard">
