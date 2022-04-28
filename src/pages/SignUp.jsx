@@ -3,13 +3,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Project files
-import { createDocumentWithId } from "../scripts/fireStore";
+import { createDocument, createDocumentWithId } from "../scripts/fireStore";
 import { createUser } from "../scripts/firebaseAuth";
 import { useUID } from "../state/UIDContext";
 import form from "../data/signUpForm.json";
 import InputField from "../components/InputField";
 
-export default function SignUp() {
+export default function SignUp({ uidState }) {
   const { setUID } = useUID();
   const navigation = useNavigate();
 
@@ -22,24 +22,43 @@ export default function SignUp() {
   async function onSignUp(event) {
     event.preventDefault();
 
-    // 1 Create UID
-    const newUID = await createUser(email, password);
+    const uid = await createUID();
+    let user = null;
 
-    // 2 Create user document
-    const newUser = {
-      name: name,
-      age: age,
-      city: city,
-    };
-    const payload = await createDocumentWithId("users", newUID, newUser);
+    if (uid) {
+      user = await createDocument(uid);
+    }
 
-    // If it works i will navigate to the dashboard page
-    // Else i will show an error message
-    if (payload.error) alert("Could not create user");
-    else {
-      setUID(newUID);
+    if (user) {
+      setUID(uid);
       navigation("/dashboard");
     }
+  }
+
+  async function createUID() {
+    const payload = await createUser(email, password);
+    const { data, error } = payload;
+
+    if (error) {
+      onFailure(data);
+      return;
+    } else return data;
+  }
+
+  async function createDocument(uid) {
+    const user = { name: name, age: age, city: city };
+    const payload = await createDocumentWithId("users", uid, user);
+    const { data, error } = payload;
+
+    if (error) {
+      onFailure(data);
+      return;
+    } else return data;
+  }
+
+  function onFailure(errorText) {
+    console.error(errorText);
+    alert(`Sorry something happened: ${errorText}`);
   }
 
   return (

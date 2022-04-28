@@ -20,12 +20,20 @@ export default function Login() {
   async function onLogin(event) {
     event.preventDefault();
 
-    const returningUID = await loginUser(email, password);
+    const payload = await loginUser(email, password);
+    const { data, error } = payload;
 
-    if (returningUID) {
-      setUID(returningUID);
-      navigation("/dashboard");
-    }
+    error === true ? onFailure(data) : onSucess(data);
+  }
+
+  function onSucess(data) {
+    setUID(data);
+    navigation("/dashboard");
+  }
+
+  function onFailure(errorText) {
+    console.error(errorText);
+    alert(`Sorry something happened: ${errorText}`);
   }
 
   return (
