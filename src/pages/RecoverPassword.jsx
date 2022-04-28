@@ -16,7 +16,7 @@ export default function RecoverPassword() {
     event.preventDefault();
 
     await recoverUser(email);
-    alert(`We sent an email to ${email}. Please follow the instructions there`);
+    alert(`We sent an email to ${email}. Check you spam folder as well.`);
   }
 
   return (
@@ -26,6 +26,10 @@ export default function RecoverPassword() {
         Please write the email you used to created your account so we can send
         you an email with instructions on how to reset and create a new
         password.
+      </p>
+      <p>
+        <b>🚨 Note:</b>
+        Don't forget to check every inbox including the spam folder.
       </p>
       <form onSubmit={onRecover}>
         <InputField setup={form.email} state={[email, setEmail]} />
