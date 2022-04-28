@@ -1,6 +1,6 @@
 // NPM packages
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Project files
 import InputField from "../components/InputField";
@@ -8,6 +8,8 @@ import form from "../data/recoverPasswordForm.json";
 import { recoverUser } from "../scripts/firebaseAuth";
 
 export default function RecoverPassword() {
+  const navigation = useNavigate();
+
   // Local state
   const [email, setEmail] = useState("");
 
@@ -15,8 +17,20 @@ export default function RecoverPassword() {
   async function onRecover(event) {
     event.preventDefault();
 
-    await recoverUser(email);
+    const payload = await recoverUser(email);
+    const { data, error } = payload;
+
+    error === true ? onFailure(data) : onSuccess(data);
+  }
+
+  function onSuccess() {
     alert(`We sent an email to ${email}. Check you spam folder as well.`);
+    navigation("/login");
+  }
+
+  function onFailure(errorText) {
+    console.error(errorText);
+    alert(`Sorry something happened: ${errorText}`);
   }
 
   return (
