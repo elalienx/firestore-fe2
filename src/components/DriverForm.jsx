@@ -17,6 +17,10 @@ export default function DriverForm({ driversState }) {
   const [nationality, setNationality] = useState("Ecuador");
   const [file, setFile] = useState(null);
 
+  // Properties
+  const imageFormats = "image/png, image/jpeg";
+
+  // Methods
   async function onCreate(event) {
     event.preventDefault();
 
@@ -27,36 +31,28 @@ export default function DriverForm({ driversState }) {
       active: false,
     };
 
-    // #4 Validate the form
-    if (name === "") return;
-    if (nationality === "") return;
-    if (file === null) return;
+    // Upload to CloudStorage and get the URL
+    const filePath = `drivers/driver-${name}-${nationality}.png`;
+    const imageURL = await createFile(filePath, file).catch(onFail);
 
-    // #5 Upload to CloudStorage and get the URL
-    const path = "drivers/";
-    const fileName = `driver-${name}-${nationality}.png`;
-    const filePath = path + fileName;
-    const imageURL = await createFile(filePath, file);
-
-    // #6 Add the URL into the driver object
+    // Add the URL into the driver object
     newDriver.imageURL = imageURL;
 
-    // #7 Send the whole driver object to FireStore
-    const payload = await createDocument("drivers", newDriver);
-    const { data, error } = payload;
+    // Send the whole driver object to FireStore
+    const driver = await createDocument("drivers", newDriver).catch(onFail);
 
-    error ? createFail(data) : createSucceed(newDriver, data);
+    if (driver) onSuccess(driver, driver.id);
+    resetForm();
   }
 
-  function createSucceed(driver, id) {
+  function onSuccess(driver, id) {
     driver.id = id;
     setDrivers([...drivers, driver]);
   }
 
-  function createFail(error) {
-    console.error(error);
+  function onFail(error) {
+    console.error(error.code);
     alert("Sorry, we could not add a new driver. Please try again");
-    resetForm();
   }
 
   async function onImageChoose(event) {
@@ -76,18 +72,9 @@ export default function DriverForm({ driversState }) {
   return (
     <form onSubmit={onCreate}>
       <h2>Add a new driver</h2>
-      {/* #1 Fill the form */}
       <InputField setup={form.name} state={[name, setName]} />
       <InputField setup={form.country} state={[nationality, setNationality]} />
-
-      {/* #2 Press the choose file button */}
-      <input
-        type="file"
-        accept="image/png, image/jpeg"
-        onChange={onImageChoose}
-      />
-
-      {/* #3 Press the submit button */}
+      <input type="file" accept={imageFormats} onChange={onImageChoose} />
       <button>Submit</button>
       <button onClick={resetForm}>Reset</button>
     </form>
