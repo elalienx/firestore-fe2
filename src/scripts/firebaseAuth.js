@@ -21,7 +21,7 @@ export async function createUser(email, password) {
 
     payload.data = userCredential.user.uid;
   } catch (error) {
-    payload = { data: error, error: true };
+    payload = { data: error.code, error: true };
   }
 
   return payload;
@@ -39,7 +39,7 @@ export async function loginUser(email, password) {
 
     payload.data = userCredential.user.uid;
   } catch (error) {
-    payload = { data: error, error: true };
+    payload = { data: error.code, error: true };
   }
 
   return payload;
@@ -52,7 +52,7 @@ export async function recoverUser(email) {
     await sendPasswordResetEmail(authentification, email);
     payload.data = "Email sent";
   } catch (error) {
-    payload = { data: error, error: true };
+    payload = { data: error.code, error: true };
   }
 
   return payload;

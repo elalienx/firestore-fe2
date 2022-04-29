@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 // Project files
 import InputField from "../components/InputField";
+import firebaseErrors from "../data/firebaseErrors.json";
 import form from "../data/recoverPasswordForm.json";
 import { recoverUser } from "../scripts/firebaseAuth";
 
@@ -28,9 +29,11 @@ export default function RecoverPassword() {
     navigation("/login");
   }
 
-  function onFailure(errorText) {
-    console.error(errorText);
-    alert(`Sorry something happened: ${errorText}`);
+  function onFailure(errorCode) {
+    const message = firebaseErrors[errorCode] || firebaseErrors["default"];
+
+    console.error(errorCode);
+    alert(message);
   }
 
   return (

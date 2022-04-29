@@ -1,0 +1,8 @@
+{
+  "auth/internal-error": "Sorry, we had an internal error on our side. Please try again.",
+  "auth/email-already-in-use": "Sorry, this email is already in use. Please use another one.",
+  "auth/wrong-password": "Sorry, your password is incorrect. Delete and try again.",
+  "auth/user-not-found": "Sorry, this email does not have an account. Check the spelling and try again.",
+  "auth/too-many-requests": "Sorry you have tried to many times to login. Please try again 1 hour.",
+  "default": "Opps, we have no clue what happen. Reload the page and try again."
+}

@@ -3,21 +3,22 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Project files
-import { createDocument, createDocumentWithId } from "../scripts/fireStore";
+import { createDocumentWithId } from "../scripts/fireStore";
 import { createUser } from "../scripts/firebaseAuth";
 import { useUID } from "../state/UIDContext";
+import firebaseErrors from "../data/firebaseErrors.json";
 import form from "../data/signUpForm.json";
 import InputField from "../components/InputField";
 
-export default function SignUp({ uidState }) {
+export default function SignUp() {
   const { setUID } = useUID();
   const navigation = useNavigate();
 
-  const [name, setName] = useState("e");
-  const [email, setEmail] = useState("el_alienx@hotmail.com");
-  const [age, setAge] = useState("35");
-  const [city, setCity] = useState("Quito");
-  const [password, setPassword] = useState("12345678");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [age, setAge] = useState("");
+  const [city, setCity] = useState("");
+  const [password, setPassword] = useState("");
 
   async function onSignUp(event) {
     event.preventDefault();
@@ -49,9 +50,11 @@ export default function SignUp({ uidState }) {
     navigation("/dashboard");
   }
 
-  function onFailure(errorText) {
-    console.error(errorText);
-    alert(`Sorry something happened: ${errorText}`);
+  function onFailure(errorCode) {
+    const message = firebaseErrors[errorCode] || firebaseErrors["default"];
+
+    console.error(errorCode);
+    alert(message);
   }
 
   return (

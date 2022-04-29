@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 // Project files
 import InputField from "../components/InputField";
+import firebaseErrors from "../data/firebaseErrors.json";
 import form from "../data/loginForm.json";
 import { loginUser } from "../scripts/firebaseAuth";
 import { useUID } from "../state/UIDContext";
@@ -31,9 +32,11 @@ export default function Login() {
     navigation("/dashboard");
   }
 
-  function onFailure(errorText) {
-    console.error(errorText);
-    alert(`Sorry something happened: ${errorText}`);
+  function onFailure(errorCode) {
+    const message = firebaseErrors[errorCode] || firebaseErrors["default"];
+
+    console.error(errorCode);
+    alert(message);
   }
 
   return (
