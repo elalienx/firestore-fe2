@@ -23,26 +23,24 @@ export default function SignUp() {
   async function onSignUp(event) {
     event.preventDefault();
 
-    const uid = await createUID().catch(onFailure);
+    const uid = await createUID().catch(onFail);
     let user;
 
-    if (uid) user = await createDocument(uid).catch(onFailure);
+    if (uid) user = await createDocument(uid).catch(onFail);
     if (user) onSuccess(uid);
   }
 
   async function createUID() {
-    const { data, error } = await createUser(email, password);
+    const uid = await createUser(email, password);
 
-    if (error) onFailure(data);
-    else return data;
+    return uid;
   }
 
   async function createDocument(uid) {
     const user = { name: name, age: age, city: city };
-    const { data, error } = await createDocumentWithId("users", uid, user);
+    const document = await createDocumentWithId("users", uid, user);
 
-    if (error) onFailure(data);
-    else return data;
+    return document;
   }
 
   function onSuccess(uid) {
@@ -50,7 +48,7 @@ export default function SignUp() {
     navigation("/dashboard");
   }
 
-  function onFailure(error) {
+  function onFail(error) {
     const message = firebaseErrors[error.code] || firebaseErrors["default"];
 
     console.error(error.code);

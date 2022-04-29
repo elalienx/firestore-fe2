@@ -18,21 +18,20 @@ export default function RecoverPassword() {
   async function onRecover(event) {
     event.preventDefault();
 
-    const payload = await recoverUser(email);
-    const { data, error } = payload;
+    const result = await recoverUser(email).catch(onFail);
 
-    error === true ? onFailure(data) : onSuccess(data);
+    if (result) onSuccess(email);
   }
 
-  function onSuccess() {
+  function onSuccess(email) {
     alert(`We sent an email to ${email}. Check you spam folder as well.`);
     navigation("/login");
   }
 
-  function onFailure(errorCode) {
-    const message = firebaseErrors[errorCode] || firebaseErrors["default"];
+  function onFail(error) {
+    const message = firebaseErrors[error.code] || firebaseErrors["default"];
 
-    console.error(errorCode);
+    console.error(error.code);
     alert(message);
   }
 
