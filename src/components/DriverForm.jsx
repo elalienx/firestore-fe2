@@ -3,6 +3,7 @@ import { useState } from "react";
 
 // Project files
 import form from "../data/driverForm.json";
+import firebaseErrors from "../data/firebaseErrors.json";
 import { createDocument } from "../scripts/fireStore";
 import { createFile } from "../scripts/cloudStorage";
 import readFile from "../scripts/resize-image/readFile";
@@ -24,24 +25,17 @@ export default function DriverForm({ driversState }) {
   async function onCreate(event) {
     event.preventDefault();
 
-    const newDriver = {
-      name: name,
-      nationality: nationality,
-      imageURL: "",
-      active: false,
-    };
-
-    // Upload to CloudStorage and get the URL
     const filePath = `drivers/driver-${name}-${nationality}.png`;
     const imageURL = await createFile(filePath, file).catch(onFail);
+    const driver = {
+      name: name,
+      nationality: nationality,
+      imageURL: imageURL,
+      active: false,
+    };
+    const documentId = await createDocument("drivers", driver).catch(onFail);
 
-    // Add the URL into the driver object
-    newDriver.imageURL = imageURL;
-
-    // Send the whole driver object to FireStore
-    const driver = await createDocument("drivers", newDriver).catch(onFail);
-
-    if (driver) onSuccess(driver, driver.id);
+    if (documentId) onSuccess(driver, documentId);
     resetForm();
   }
 
@@ -51,8 +45,10 @@ export default function DriverForm({ driversState }) {
   }
 
   function onFail(error) {
+    const message = firebaseErrors[error.code] || firebaseErrors["default"];
+
     console.error(error.code);
-    alert("Sorry, we could not add a new driver. Please try again");
+    alert(message);
   }
 
   async function onImageChoose(event) {

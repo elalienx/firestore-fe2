@@ -15,22 +15,21 @@ export default function Drivers() {
   // Method
   useEffect(() => {
     async function loadData() {
-      const payload = await readCollection("drivers");
-      const { data, error } = payload;
+      const data = await readCollection("drivers").catch(onFail);
 
-      error ? loadFail(data) : loadSucceed(data);
+      if (data) onSuccess(data);
     }
 
     loadData();
   }, []);
 
-  function loadSucceed(data) {
+  function onSuccess(data) {
     setDrivers(data);
     setStatus(1);
   }
 
-  function loadFail(error) {
-    console.error(error);
+  function onFail(error) {
+    console.error(error.code);
     setStatus(2);
   }
 
