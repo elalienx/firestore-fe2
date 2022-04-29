@@ -2,26 +2,31 @@
   "name": {
     "label": "Full name",
     "placeholder": "Ex: Jhon Doe",
-    "type": "text"
+    "type": "text",
+    "required": true
   },
   "email": {
     "label": "E-mail",
     "placeholder": "Ex: jhon_doe@yahoo.com",
-    "type": "email"
+    "type": "email",
+    "required": true
   },
   "age": {
     "label": "Age",
     "placeholder": "Ex: 30",
-    "type": "number"
+    "type": "number",
+    "required": true
   },
   "city": {
     "label": "City",
     "placeholder": "Ex: New York",
-    "type": "text"
+    "type": "text",
+    "required": true
   },
   "password": {
     "label": "Password",
     "placeholder": "********",
-    "type": "password"
+    "type": "password",
+    "required": true
   }
 }

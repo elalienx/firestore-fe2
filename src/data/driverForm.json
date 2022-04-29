@@ -2,11 +2,13 @@
   "name": {
     "label": "Driver's name",
     "placeholder": "Ex: Niki Lauda",
-    "type": "text"
+    "type": "text",
+    "required": true
   },
   "country": {
     "label": "Country of origin",
     "placeholder": "Ex: Austria",
-    "type": "text"
+    "type": "text",
+    "required": true
   }
 }

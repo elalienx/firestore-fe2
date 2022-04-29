@@ -8,101 +8,50 @@ import { fireStore } from "./firebase";
 // Methods
 // -- Create
 export async function createDocument(path, data) {
-  let payload = { data: undefined, error: false };
+  const documentPath = collection(fireStore, path);
+  const document = await addDoc(documentPath, data);
 
-  try {
-    const documentPath = collection(fireStore, path);
-    const document = await addDoc(documentPath, data);
-
-    payload = { data: document.id, error: false };
-  } catch (error) {
-    payload = { data: error, error: true };
-  }
-
-  return payload;
+  return document.id;
 }
 
 export async function createDocumentWithId(path, id, data) {
-  let payload = { data: undefined, error: false };
+  const documentReference = doc(fireStore, path, id);
+  await setDoc(documentReference, data);
 
-  try {
-    const documentReference = doc(fireStore, path, id);
-    await setDoc(documentReference, data);
-
-    payload = { data: `Document with id ${id} created!`, error: false };
-  } catch (error) {
-    payload = { data: error, error: true };
-  }
-
-  return payload;
+  return `Document with id ${id} created!`;
 }
 
 // -- Read
 export async function readDocument(path, id) {
-  const payload = { data: undefined, error: false };
+  const documentPath = doc(fireStore, path, id);
+  const document = await getDoc(documentPath);
 
-  try {
-    const documentPath = doc(fireStore, path, id);
-    const document = await getDoc(documentPath);
-
-    payload.data = document.data();
-  } catch (error) {
-    payload.error = true;
-    payload.data = error;
-  }
-
-  return payload;
+  return document.data();
 }
 
 export async function readCollection(path) {
-  let payload = { data: undefined, error: false };
+  const collectionPath = collection(fireStore, path);
+  const snapshot = await getDocs(collectionPath);
+  const documents = snapshot.docs.map((item) => {
+    return { id: item.id, ...item.data() };
+  });
 
-  try {
-    const collectionPath = collection(fireStore, path);
-    const snapshot = await getDocs(collectionPath);
-    const documents = snapshot.docs.map((item) => {
-      return { id: item.id, ...item.data() };
-    });
-
-    payload = { data: documents, error: false };
-  } catch (error) {
-    payload = { data: error, error: true };
-  }
-
-  return payload;
+  return documents;
 }
 
 // -- Update
 export async function updateDocument(path, data) {
-  const payload = { data: undefined, error: false };
+  const id = data.id;
+  const documentPath = doc(fireStore, path, id);
 
-  try {
-    const id = data.id;
-    const documentPath = doc(fireStore, path, id);
-    await setDoc(documentPath, data);
-
-    payload.data = "Succeed modifying document";
-  } catch (error) {
-    payload.error = true;
-    payload.data = error;
-  }
-
-  return payload;
+  await setDoc(documentPath, data);
+  return "Succeed modifying document";
 }
 
 // -- Delete
 export async function deleteDocument(path, id) {
-  const payload = { data: undefined, error: false };
+  const documentPath = doc(fireStore, path, id);
 
-  try {
-    const documentPath = doc(fireStore, path, id);
-
-    await deleteDoc(documentPath);
-    payload.data = "Succeed deleting document";
-  } catch (error) {
-    payload.error = true;
-    payload.data = error;
-  }
-
-  return payload;
+  await deleteDoc(documentPath);
+  return "Succeed deleting document";
 }

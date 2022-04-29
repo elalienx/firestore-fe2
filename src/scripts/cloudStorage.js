@@ -6,17 +6,16 @@ import { getDownloadURL, uploadBytes, deleteObject } from "firebase/storage";
 import { cloudStorage } from "./firebase";
 
 // Methods
-// -- Create
 export async function createFile(filePath, file) {
   const fileReference = ref(cloudStorage, filePath);
 
-  await uploadBytes(fileReference, file); // uploading a file to the server
-  return await getDownloadURL(fileReference); // getting the URL
+  await uploadBytes(fileReference, file);
+  return await getDownloadURL(fileReference);
 }
 
-// -- Delete
 export async function deleteFile(filePath) {
   const fileReference = ref(cloudStorage, filePath);
 
   await deleteObject(fileReference);
+  return "File deleted";
 }

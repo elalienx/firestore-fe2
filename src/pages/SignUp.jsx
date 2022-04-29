@@ -23,10 +23,10 @@ export default function SignUp() {
   async function onSignUp(event) {
     event.preventDefault();
 
-    const uid = await createUID();
+    const uid = await createUID().catch(onFailure);
     let user;
 
-    if (uid) user = await createDocument(uid);
+    if (uid) user = await createDocument(uid).catch(onFailure);
     if (user) onSuccess(uid);
   }
 
@@ -50,10 +50,10 @@ export default function SignUp() {
     navigation("/dashboard");
   }
 
-  function onFailure(errorCode) {
-    const message = firebaseErrors[errorCode] || firebaseErrors["default"];
+  function onFailure(error) {
+    const message = firebaseErrors[error.code] || firebaseErrors["default"];
 
-    console.error(errorCode);
+    console.error(error.code);
     alert(message);
   }
 

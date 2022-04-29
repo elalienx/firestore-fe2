@@ -21,10 +21,9 @@ export default function Login() {
   async function onLogin(event) {
     event.preventDefault();
 
-    const payload = await loginUser(email, password);
-    const { data, error } = payload;
+    const uid = await loginUser(email, password).catch(onFailure);
 
-    error === true ? onFailure(data) : onSucess(data);
+    if (uid) onSucess(uid);
   }
 
   function onSucess(data) {
@@ -32,10 +31,10 @@ export default function Login() {
     navigation("/dashboard");
   }
 
-  function onFailure(errorCode) {
-    const message = firebaseErrors[errorCode] || firebaseErrors["default"];
+  function onFailure(error) {
+    const message = firebaseErrors[error.code] || firebaseErrors["default"];
 
-    console.error(errorCode);
+    console.error(error.code);
     alert(message);
   }
 
