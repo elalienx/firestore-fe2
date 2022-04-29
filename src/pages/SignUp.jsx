@@ -13,47 +13,40 @@ export default function SignUp({ uidState }) {
   const { setUID } = useUID();
   const navigation = useNavigate();
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [age, setAge] = useState("");
-  const [city, setCity] = useState("");
-  const [password, setPassword] = useState("");
+  const [name, setName] = useState("e");
+  const [email, setEmail] = useState("el_alienx@hotmail.com");
+  const [age, setAge] = useState("35");
+  const [city, setCity] = useState("Quito");
+  const [password, setPassword] = useState("12345678");
 
   async function onSignUp(event) {
     event.preventDefault();
 
     const uid = await createUID();
-    let user = null;
+    let user;
 
-    if (uid) {
-      user = await createDocument(uid);
-    }
-
-    if (user) {
-      setUID(uid);
-      navigation("/dashboard");
-    }
+    if (uid) user = await createDocument(uid);
+    if (user) onSuccess(uid);
   }
 
   async function createUID() {
-    const payload = await createUser(email, password);
-    const { data, error } = payload;
+    const { data, error } = await createUser(email, password);
 
-    if (error) {
-      onFailure(data);
-      return;
-    } else return data;
+    if (error) onFailure(data);
+    else return data;
   }
 
   async function createDocument(uid) {
     const user = { name: name, age: age, city: city };
-    const payload = await createDocumentWithId("users", uid, user);
-    const { data, error } = payload;
+    const { data, error } = await createDocumentWithId("users", uid, user);
 
-    if (error) {
-      onFailure(data);
-      return;
-    } else return data;
+    if (error) onFailure(data);
+    else return data;
+  }
+
+  function onSuccess(uid) {
+    setUID(uid);
+    navigation("/dashboard");
   }
 
   function onFailure(errorText) {
